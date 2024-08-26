@@ -8,7 +8,7 @@ ${props=>props.type==='horizontal' && css`
 `}
 ${props=>props.type ==='vertical' && css`
     flex-direction: column;
-    gap:1.6rem
+    gap:1.6rem;
 `}
     
 `;
