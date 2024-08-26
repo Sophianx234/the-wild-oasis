@@ -12,7 +12,7 @@ const StyledAppLayout = styled.div`
 display:grid;
 height:100vh;
 grid-template-columns:26rem 1fr;
-grid-template-rows:auto 1fr `
+grid-template-rows:auto 1fr; `
 
 
 function AppLayout() {

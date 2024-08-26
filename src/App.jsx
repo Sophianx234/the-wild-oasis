@@ -21,7 +21,7 @@ function App() {
         <Route index element={<Navigate to='dashboard' replace/>} />
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/bookings" element={<Bookings/>}/>
-        <Route path="/cains" element={<Cabins/>}/>
+        <Route path="/cabins" element={<Cabins/>}/>
         <Route path="/users" element={<Users/>}/>
         <Route path="/settings" element={<Settings/>}/>
         <Route path="/account" element={<Account/>}/>
