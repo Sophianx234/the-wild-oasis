@@ -16,4 +16,21 @@ if(error){
 return data
 }
 
+export async function DeleteCabin(id){
+    
+const { data, error } = await supabase
+.from('cabins')
+.delete()
+.eq('id', id)
+
+if(error){
+    console.error(error)
+    throw new Error('could not delete row from Cabins');
+
+}
+return data
+
+
+}
+
 export default getCabins
