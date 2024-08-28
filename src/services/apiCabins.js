@@ -16,6 +16,23 @@ if(error){
 return data
 }
 
+export async function createCabin(newCabin){
+    
+const { data, error } = await supabase
+.from('cabins')
+.insert([
+   newCabin
+])
+.select()
+if(error){
+    console.error(error)
+    throw new Error('could not delete row from Cabins');
+
+}
+return data
+
+}
+
 export async function DeleteCabin(id){
     
 const { data, error } = await supabase
