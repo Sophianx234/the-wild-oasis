@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import getCabins, { createCabin } from "../../services/apiCabins";
 import toast, { ToastBar } from "react-hot-toast";
+import FormRow2 from "../../ui/formRow";
 
 const FormRow = styled.div`
   display: grid;
@@ -47,7 +48,8 @@ const Error = styled.span`
 `;
 
 function CreateCabinForm() {
-  const {register, handleSubmit, reset} = useForm()
+  const {register, handleSubmit, reset, getValues, formState} = useForm()
+  const {errors} = formState
   const queryClient = useQueryClient()
   const {isLoading, mutate} = useMutation({
     mutationFn: createCabin,
@@ -62,41 +64,81 @@ function CreateCabinForm() {
     
   })
   function onSubmit(data){
+    console.log(data)
 
-    mutate(data)
+    mutate({...data,image:data.image[0]})
 
   }
+  function onError(error){
+    // console.log(error)
+  }
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow>
-        <Label htmlFor="name">Cabin name</Label>
-        <Input type="text" id="name" {...register('name')} />
-      </FormRow>
+    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+      
 
-      <FormRow>
-        <Label htmlFor="maxCapacity">Maximum capacity</Label>
-        <Input type="number" id="maxCapacity" {...register('maxCapacity')} />
-      </FormRow>
+        <FormRow2 label='Cabin name ' error={errors?.name?.message}>
+          <Input
+          type="text"
+          id="name"
+          {...register('name',{required: 'This field is required'})}
+          disabled= {isLoading}
+          ></Input>
+        </FormRow2>
+        <FormRow2 label='Regular Price' error={errors?.regularPrice?.message}>
+          <Input
+          type="text"
+          id="regularPrice"
+          disabled= {isLoading}
+          {...register('regularPrice',{required: 'This field is required',
+            
+          })}
+          ></Input>
+        </FormRow2>
+        <FormRow2 label='Maximum capacity ' error={errors?.maxCapacity?.message}>
+          <Input
+          type="text"
+          disabled= {isLoading}
+          id="maxCapacity"
+          {...register('maxCapacity',{required: 'This field is required',
+            min: {
+              value: 1,
+              message: 'Maximum capacity should be at least 1'
+            }
+          })}
+          ></Input>
+        </FormRow2>
+      
 
-      <FormRow>
-        <Label htmlFor="regularPrice">Regular price</Label>
-        <Input type="number" id="regularPrice" {...register('regularPrice')} />
-      </FormRow>
+      
 
-      <FormRow>
-        <Label htmlFor="discount">Discount</Label>
-        <Input type="number" id="discount" {...register('discount')} defaultValue={0} />
-      </FormRow>
+      <FormRow2 label='Discount' error={errors?.discount?.message}>
+       
+        <Input type="number"
+        disabled= {isLoading} id="discount" {...register('discount', {required: 'This field is required',
+          validate: value=> +value <= +getValues().regularPrice || 'Discount should be less than regular price'
+          })} 
+          defaultValue={0} />
+      </FormRow2>
 
-      <FormRow>
-        <Label htmlFor="description">Description for website</Label>
-        <Textarea type="number" id="description" defaultValue="" {...register('description')} />
-      </FormRow>
 
-      <FormRow>
-        <Label htmlFor="image">Cabin photo</Label>
-        <FileInput id="image" accept="image/*" />
-      </FormRow>
+      <FormRow2 label='Description for a website' error={errors?.description?.message}
+      >
+        <Textarea type="number" id="description" 
+        disabled= {isLoading} defaultValue="" {...register('description', {
+          required: 'This field is required',
+          })   } />
+      </FormRow2>
+
+      <FormRow2 label='Cabin photo'>
+        <FileInput id="image" accept="image/*"
+        type="file"
+        {...register('image',{
+
+          required: 'This field is required'
+          
+        })}/>
+
+      </FormRow2>
 
       <FormRow>
         {/* type is an HTML attribute! */}
