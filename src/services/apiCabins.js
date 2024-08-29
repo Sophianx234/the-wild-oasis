@@ -16,17 +16,26 @@ if(error){
 return data
 }
 
-export async function createCabin(newCabin){
+export async function createEditCabin(newCabin, id ){
+    console.log(newCabin)
+    const hasImagePath = newCabin?.image?.startsWith(supabaseUrl)
     const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll('/','')
-    const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`
+    const imagePath = hasImagePath?newCabin?.image:`${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`
 
     // `https://cwpgmkocgvfhkpwjntrl.supabase.cocabin-001.jpg`
-const { data, error } = await supabase
-.from('cabins')
-.insert([
+ let query =  supabase.from('cabins')
+if(!id)
+query =query.insert([
    {...newCabin, image: imagePath}
 ])
-.select()
+
+if(id)
+   query = query.update({ ...newCabin, image: imagePath})
+.eq('id',id)
+
+
+
+const {data, error} = await query.select()
 if(error){
     console.error(error)
     throw new Error('could not delete row from Cabins');
@@ -47,7 +56,7 @@ const { error: storageError } = await supabase
     }
 return data
 
-}
+} 
 
 export async function DeleteCabin(id){
     
