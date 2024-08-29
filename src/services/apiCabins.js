@@ -18,6 +18,7 @@ return data
 
 export async function createEditCabin(newCabin, id ){
     console.log(newCabin)
+    console.log(id)
     const hasImagePath = newCabin?.image?.startsWith(supabaseUrl)
     const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll('/','')
     const imagePath = hasImagePath?newCabin?.image:`${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`
@@ -29,15 +30,18 @@ query =query.insert([
    {...newCabin, image: imagePath}
 ])
 
-if(id)
-   query = query.update({ ...newCabin, image: imagePath})
-.eq('id',id)
+if(id){
+    query = query.update({ ...newCabin, image: imagePath})
+    .eq('id',id)
+
+}
 
 
 
 const {data, error} = await query.select()
 if(error){
     console.error(error)
+    console.log(id)
     throw new Error('could not delete row from Cabins');
 
 }
