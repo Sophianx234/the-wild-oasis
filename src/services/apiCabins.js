@@ -18,7 +18,7 @@ return data
 
 export async function createEditCabin(newCabin, id ){
     console.log(newCabin)
-    console.log(id)
+    console.log('cabinApi id',newCabin.id)
     const hasImagePath = newCabin?.image?.startsWith(supabaseUrl)
     const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll('/','')
     const imagePath = hasImagePath?newCabin?.image:`${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`
@@ -30,12 +30,8 @@ query =query.insert([
    {...newCabin, image: imagePath}
 ])
 
-if(id){
-    query = query.update({ ...newCabin, image: imagePath})
+if(id) query = query.update({ ...newCabin, image: imagePath})
     .eq('id',id)
-
-}
-
 
 
 const {data, error} = await query.select()

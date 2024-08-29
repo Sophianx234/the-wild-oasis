@@ -36,7 +36,7 @@ function CreateCabinForm({cabin={}}) {
     
   })
   const {isLoading: isEditing, mutate: editCabin} = useMutation({
-    mutationFn: ({newCabinData, id})=>createEditCabin(newCabinData, id),
+    mutationFn: ({newCabinData, editId})=>createEditCabin(newCabinData, editId),
     onSuccess:()=> {
       toast.success("Cabin successfully edited")
       reset()
