@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import  { createEditCabin } from "../../services/apiCabins";
 import toast from "react-hot-toast";
 import FormRow2 from "../../ui/formRow";
+import { useCreateCabin } from "./useCreateCabin";
 
 
 
@@ -22,18 +23,7 @@ function CreateCabinForm({cabin={}}) {
   })
   const {errors} = formState
   const queryClient = useQueryClient()
-  const {isLoading:isCreating, mutate: createCabin} = useMutation({
-    mutationFn: createEditCabin,
-    onSuccess:()=> {
-      toast.success("New cabin successfully created")
-      reset()
-      queryClient.invalidateQueries({
-        queryKey: ['cabins']
-      })
-    },
-    onError: err=> toast.error(err.message)
-    
-  })
+  const {isCreating, createCabin} = useCreateCabin()
   const {isLoading: isEditing, mutate: editCabin} = useMutation({
     mutationFn: ({newCabinData, editId})=>createEditCabin(newCabinData, editId),
     onSuccess:()=> {
