@@ -19,7 +19,7 @@ return data
 export async function createEditCabin(newCabin, id ){
     console.log(newCabin)
     console.log('cabinApi id',newCabin.id)
-    const hasImagePath = newCabin?.image?.startsWith(supabaseUrl)
+    const hasImagePath = newCabin?.image?.name.startsWith(supabaseUrl)
     const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll('/','')
     const imagePath = hasImagePath?newCabin?.image:`${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`
 
