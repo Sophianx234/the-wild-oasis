@@ -1,23 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
-import getCabins from "../services/apiCabins";
 import CabinTable from "../features/cabins/CabinTable";
-import { useQuery } from "@tanstack/react-query";
 import Spinner from "../ui/Spinner";
 import Button from "../ui/Button";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
+import { useCabins } from "../features/cabins/useCabins";
 
 function Cabins() {
-  const {
-    isLoading,
-    data: cabins,
-    error
-
-  } = useQuery({
-    queryKey: ['cabins'],
-    queryFn: getCabins
-  })
+  const {isLoading, cabins} = useCabins()
   const [showForm, setShowForm] = useState(false)
 
   if(isLoading) return <Spinner/>
