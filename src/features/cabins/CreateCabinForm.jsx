@@ -37,7 +37,7 @@ function CreateCabinForm({ cabin = {} }) {
           },
         }
       );
-    } else createCabin({ ...data, image: data.image[0] });
+    } else createCabin({ ...data, image: data.image[0] },editId);
   }
   function onError(error) {
     // console.log(error)

@@ -18,8 +18,8 @@ return data
 
 export async function createEditCabin(newCabin, id ){
     console.log(newCabin)
-    console.log('cabinApi id',newCabin.id)
-    const hasImagePath = newCabin?.image?.name.startsWith(supabaseUrl)
+    console.log('cabinApi id',id)
+    const hasImagePath = newCabin?.image?.name?.startsWith(supabaseUrl)
     const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll('/','')
     const imagePath = hasImagePath?newCabin?.image:`${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`
 
@@ -41,6 +41,8 @@ if(error){
     throw new Error('could not delete row from Cabins');
 
 }
+
+if(hasImagePath) return data
 const { error: storageError } = await supabase
   .storage
   .from('cabin-images')
