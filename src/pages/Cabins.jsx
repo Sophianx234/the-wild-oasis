@@ -6,10 +6,11 @@ import Spinner from "../ui/Spinner";
 import Button from "../ui/Button";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
 import { useCabins } from "../features/cabins/useCabins";
+import AddCabin from "../features/cabins/AddCabin";
 
 function Cabins() {
   const {isLoading, cabins} = useCabins()
-  const [showForm, setShowForm] = useState(false)
+  
 
   if(isLoading) return <Spinner/>
   return (
@@ -21,8 +22,7 @@ function Cabins() {
     </Row>
     <Row>
     <CabinTable cabins={cabins}/>
-    {showForm && <CreateCabinForm/>}
-    <Button onClick={()=>setShowForm(show=>!show)}>{showForm? 'close cabin form':'Add new cabin'}</Button>
+    <AddCabin cabins ={cabins}/>
     </Row>
     </>
   );
