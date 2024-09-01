@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
+import { HiXMark } from "react-icons/hi2";
+import { createPortal } from "react-dom";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -49,11 +51,18 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
-function Modal({cabin}) {
-  return (
+function Modal({children, onClose}) {
+  return createPortal(
+    <Overlay>
+
     <StyledModal>
-      <CreateCabinForm cabin={cabin}/>
+      <Button onClick={onClose}>
+        <HiXMark/>
+      </Button>
+      {children}
     </StyledModal>
+    </Overlay>,
+    document.body
   )
 }
 

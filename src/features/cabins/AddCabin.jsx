@@ -9,7 +9,9 @@ function AddCabin({cabin}) {
         <div>
 
             <Button onClick={()=>setIsOpenModal(show=>!show)}>{isOpenModal? 'close cabin form':'Add new cabin'}</Button>
-            {isOpenModal && <Modal cabin ={cabin}/>}
+            {isOpenModal && <Modal onClose={()=>setIsOpenModal(false)}>
+                <CreateCabinForm onClose={()=>setIsOpenModal(false)} cabin={cabin}/>
+                </Modal>}
         </div>
         
     )
