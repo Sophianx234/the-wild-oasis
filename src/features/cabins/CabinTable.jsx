@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CabinRow from "./CabinRow";
+import { useSearchParams } from "react-router-dom";
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
